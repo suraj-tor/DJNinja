@@ -1,4 +1,5 @@
 from typing import List
+from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 from .models import *
 from .schema import *
@@ -26,9 +27,15 @@ def post_product(request, data: ProductSchema):
     return {"name": qs.name}
 
 
-@api.get("inventory/category/all/", response=List[CateGorySchema])
+@api.get("inventory/category/all/", response=List[CateGoryListSchema])
 def get_categories(request):
     qs = Category.objects.all()
+    return qs
+
+
+@api.get("inventory/products/all/", response=List[ProductListSchema])
+def get_Products(request):
+    qs = Product.objects.all()
     return qs
 
 
@@ -36,3 +43,13 @@ def get_categories(request):
 def get_product_by_category(request, category_slug):
     qs = Product.objects.filter(category__slug__icontains=category_slug)
     return qs
+
+
+@api.put("inventory/category/{category_id}")
+def update_category(request, category_id: int, data: CateGorySchema):
+    category_object = get_object_or_404(Category, id=category_id)
+    for attr, value in data.dict().items():
+        if value:
+            setattr(category_object, attr, value)
+    category_object.save()
+    return {"Success": True}
