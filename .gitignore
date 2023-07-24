@@ -1,0 +1,5 @@
+.vscode/settings.json
+djangoApi/__pycache__/
+djninja/
+inventory/__pycache__/
+inventory/migrations/__pycache__/
