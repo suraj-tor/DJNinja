@@ -53,3 +53,10 @@ def update_category(request, category_id: int, data: CateGorySchema):
             setattr(category_object, attr, value)
     category_object.save()
     return {"Success": True}
+
+
+@api.delete("/category/{category_id}")
+def delete_category(request, category_id:int):
+    category_object = get_object_or_404(Category, id = category_id)
+    category_object.delete()
+    return {"Success": True}
