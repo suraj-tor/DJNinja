@@ -13,3 +13,9 @@ def home(request):
 def post_category(request, data:CateGorySchema):
     qs = Category.objects.create(**data.dict())
     return {"id":qs.name}
+
+@api.post('inventory/product')
+def post_product(request, data:ProductSchema):
+    print(data)
+    qs = Product.objects.create(name=data.name, web_id=data.web_id, category_id=data.category)
+    return {'name':qs.name}

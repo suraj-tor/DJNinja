@@ -48,7 +48,7 @@ class Product(models.Model):
         related_name="product",
         default=1,
         on_delete=models.SET_DEFAULT,
-        null=True,
+        null=False,
         blank=True,
     )
     is_active = models.BooleanField(
